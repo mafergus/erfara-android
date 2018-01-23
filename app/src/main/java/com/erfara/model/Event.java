@@ -2,6 +2,7 @@ package com.erfara.model;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by matthewferguson on 1/11/18.
@@ -15,13 +16,37 @@ public class Event {
     final public String date;
     final public String startTime;
     final public String endTime;
-//    final public GeoCoordinate location;
+    final public GeoCoordinate location;
     final public String locationString;
     final public String photo;
     final public String hostId;
 
     public User host;
     public List<User> attendees;
+
+    final public static class GeoCoordinate {
+        final public String address;
+        final public String city;
+        final public Double latitude;
+        final public Double longitude;
+        final public String title;
+
+        public GeoCoordinate(String address, String city, Double latitude, Double longitude, String title) {
+            this.address = address;
+            this.city = city;
+            this.latitude = latitude;
+            this.longitude = longitude;
+            this.title = title;
+        }
+
+        static GeoCoordinate fromMap(Map<String, Object> map) {
+            return new GeoCoordinate((String)map.get("address"),
+                    (String)map.get("city"),
+                    (Double)map.get("latitude"),
+                    (Double)map.get("longitude"),
+                    (String)map.get("title"));
+        }
+    }
 
     public Event() {
         this.id = null;
@@ -35,11 +60,12 @@ public class Event {
         this.photo = null;
         this.hostId = null;
         this.host = null;
+        this.location = null;
     }
 
     public Event(String id, String title, String toBring, Object[] attendeeIds, String date,
                  String startTime, String endTime, String locationString,
-                 String photo, String hostId, User host) {
+                 String photo, String hostId, User host, GeoCoordinate geoCoord) {
         this.id = id;
         this.title = title;
         this.toBring = toBring;
@@ -51,6 +77,7 @@ public class Event {
         this.photo = photo;
         this.hostId = hostId;
         this.host = host;
+        this.location = geoCoord;
     }
 
     static public Event fromMap(HashMap map) {
@@ -64,7 +91,8 @@ public class Event {
         String locationString = (String)map.get("locationString");
         String photo = (String)map.get("photo");
         String host = (String)map.get("userId");
+        GeoCoordinate coord = GeoCoordinate.fromMap((Map<String, Object>)map.get("geoCoordinates"));
 
-        return new Event(id, title, toBring, attendees, date, startTime, endTime, locationString, photo, host, null);
+        return new Event(id, title, toBring, attendees, date, startTime, endTime, locationString, photo, host, null, coord);
     }
 }

@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.icu.text.DateFormat;
 import android.icu.text.SimpleDateFormat;
+import android.location.Geocoder;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,11 +17,13 @@ import com.bumptech.glide.Glide;
 import com.erfara.erfara.R;
 import com.erfara.model.Event;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -113,10 +116,13 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.ViewHolder
             Map<String, HashMap> userMap = (HashMap)Api.objects.get("users");
             Map<String, Object> user = userMap.get(event.hostId);
             Glide.with(context).load(user != null ? user.get("photo") : "").into(this.hostImage);
-
-//            Picasso.with(context).load(cause.leadingImage).into(this.causeImage);
-//            this.title.setText(cause.title);
-//            this.text.setText(cause.detail);
+            Geocoder geocoder = new Geocoder(context, Locale.getDefault());
+            String city = "Some City";
+            try {
+                city = geocoder.getFromLocation(37.4183149, -122.12883449999998, 1).get(0).getLocality();
+            } catch (IOException e) {
+            }
+            this.city.setText(city);
         }
 
     }
