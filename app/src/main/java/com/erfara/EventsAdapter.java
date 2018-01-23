@@ -123,6 +123,7 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.ViewHolder
             } catch (IOException e) {
             }
             this.city.setText(city);
+            this.attendeesCount.setText(this.event.attendeeIds.length + "/4");
         }
 
     }
