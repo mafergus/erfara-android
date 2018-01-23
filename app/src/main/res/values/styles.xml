@@ -17,4 +17,22 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="CardTitle">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/dark_primary_text</item>
+    </style>
+
+    <style name="CardSubtitle">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/dark_secondary_text</item>
+    </style>
+
+    <style name="MediumText">
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="SmallText">
+        <item name="android:textSize">12sp</item>
+    </style>
+
 </resources>

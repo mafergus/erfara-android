@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "704540196961",
+    "firebase_url": "https://erfara-2aa21.firebaseio.com",
+    "project_id": "erfara-2aa21",
+    "storage_bucket": "erfara-2aa21.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:704540196961:android:f88f73dce385d5f2",
+        "android_client_info": {
+          "package_name": "com.erfara.erfara"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "704540196961-o68ufjp4fnoucr2oeqbod63s6fo7oci0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.erfara.erfara",
+            "certificate_hash": "ede90842636a8cbc79c5676525e3aeba4defa4d6"
+          }
+        },
+        {
+          "client_id": "704540196961-niljea0p62ji42q5t7ojo7bgu3n9naen.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAY8MFi-j9fXWuALN917KWmE4yJOiV8VQs"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "704540196961-niljea0p62ji42q5t7ojo7bgu3n9naen.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
