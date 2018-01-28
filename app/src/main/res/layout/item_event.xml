@@ -4,8 +4,8 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_margin="10dp"
-    app:cardCornerRadius="5dp"
-    android:elevation="5dp">
+    android:elevation="5dp"
+    app:cardCornerRadius="5dp">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="250dp">
@@ -32,28 +32,28 @@
 
             <TextView
                 android:id="@+id/title"
+                style="@style/CardTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="true"
-                android:layout_marginRight="80dp"
                 android:layout_marginBottom="3dp"
-                style="@style/CardTitle"
-                android:text="Build a well in India"
-                android:singleLine="true"
+                android:layout_marginRight="80dp"
                 android:ellipsize="middle"
+                android:singleLine="true"
+                android:text="Build a well in India"
                 android:textSize="22sp" />
 
             <TextView
                 android:id="@+id/subtitle"
+                style="@style/CardSubtitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_below="@id/title"
-                style="@style/CardSubtitle"
-                android:text="5:00pm Sat, May 26th"
+                android:ellipsize="end"
                 android:singleLine="true"
-                android:ellipsize="end" />
+                android:text="5:00pm Sat, May 26th" />
 
             <RelativeLayout
                 android:id="@+id/baselineContainer"
@@ -67,15 +67,17 @@
                     android:id="@+id/locationIcon"
                     android:layout_width="10dp"
                     android:layout_height="18dp"
-                    android:layout_marginRight="8dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="5dp"
+                    android:scaleType="fitCenter"
                     android:src="@drawable/ic_location" />
 
                 <TextView
                     android:id="@+id/city"
-                    android:layout_toRightOf="@id/locationIcon"
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
                     style="@style/CardSubtitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/locationIcon"
                     android:text="San Francisco, CA" />
 
                 <LinearLayout
@@ -87,16 +89,23 @@
 
                     <TextView
                         android:id="@+id/attendeeCount"
+                        style="@style/CardSubtitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        style="@style/CardSubtitle"
                         android:layout_marginRight="8dp"
-                        android:text="3/4"/>
+                        android:text="3/4" />
 
-                    <ImageView
-                        android:layout_width="15dp"
-                        android:layout_height="15dp"
-                        android:src="@drawable/ic_people"/>
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical">
+
+                        <ImageView
+                            android:layout_width="15dp"
+                            android:layout_height="14dp"
+                            android:scaleType="centerInside"
+                            android:src="@drawable/ic_people" />
+                    </RelativeLayout>
                 </LinearLayout>
 
             </RelativeLayout>

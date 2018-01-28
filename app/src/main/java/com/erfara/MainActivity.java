@@ -25,11 +25,14 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    private static final String TAG = MainActivity.class.getCanonicalName();
 
     private RecyclerView list;
     private EventsAdapter adapter;
@@ -73,6 +76,7 @@ public class MainActivity extends AppCompatActivity
                     Event event = Event.fromMap(eventMap);
                     erfaraEvents.add(event);
                 }
+                Log.v(TAG, "Got events" + Arrays.toString(erfaraEvents.toArray()));
                 adapter.setEvents(erfaraEvents);
             }
 

@@ -1,5 +1,6 @@
 package com.erfara.model;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -78,6 +79,25 @@ public class Event {
         this.hostId = hostId;
         this.host = host;
         this.location = geoCoord;
+    }
+
+    @Override
+    public String toString() {
+        return "Event{" +
+                "id='" + id + '\'' +
+                ", title='" + title + '\'' +
+                ", toBring='" + toBring + '\'' +
+                ", attendeeIds=" + Arrays.toString(attendeeIds) +
+                ", date='" + date + '\'' +
+                ", startTime='" + startTime + '\'' +
+                ", endTime='" + endTime + '\'' +
+                ", location=" + location +
+                ", locationString='" + locationString + '\'' +
+                ", photo='" + photo + '\'' +
+                ", hostId='" + hostId + '\'' +
+                ", host=" + host +
+                ", attendees=" + attendees +
+                '}';
     }
 
     static public Event fromMap(HashMap map) {
