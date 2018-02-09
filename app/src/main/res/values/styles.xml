@@ -27,12 +27,54 @@
         <item name="android:textColor">@color/dark_secondary_text</item>
     </style>
 
+    <style name="LargeText">
+        <item name="android:textSize">24sp</item>
+    </style>
+
+    <style name="LargeText.Dark" parent="LargeText">
+        <item name="android:textColor">@color/dark_primary_text</item>
+    </style>
+
+    <style name="LargeText.Light" parent="LargeText">
+        <item name="android:textColor">@color/light_primary_text</item>
+    </style>
+
     <style name="MediumText">
-        <item name="android:textSize">18sp</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="MediumText.Dark" parent="MediumText">
+        <item name="android:textColor">@color/dark_primary_text</item>
+    </style>
+
+    <style name="MediumText.Light" parent="MediumText">
+        <item name="android:textColor">@color/light_primary_text</item>
     </style>
 
     <style name="SmallText">
-        <item name="android:textSize">12sp</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="SmallText.Dark" parent="SmallText">
+        <item name="android:textColor">@color/dark_primary_text</item>
+    </style>
+
+    <style name="SmallText.Dark.Secondary" parent="SmallText">
+        <item name="android:textColor">@color/dark_secondary_text</item>
+    </style>
+
+    <style name="SmallText.Light" parent="SmallText">
+        <item name="android:textColor">@color/light_primary_text</item>
+    </style>
+
+    <style name="Button">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:background">@color/colorAccent</item>
+    </style>
+
+    <style name="Button.LightText" parent="Button">
+        <item name="android:textColor">@color/white</item>
     </style>
 
 </resources>

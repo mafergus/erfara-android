@@ -1,5 +1,6 @@
 package com.erfara;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -18,6 +19,7 @@ import android.view.View;
 
 import com.erfara.erfara.R;
 import com.erfara.model.Event;
+import com.erfara.utils.Constants;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -73,6 +75,7 @@ public class MainActivity extends AppCompatActivity
 
                 for (String key : eventsMap.keySet()) {
                     HashMap eventMap = eventsMap.get(key);
+                    eventMap.put("id", key);
                     Event event = Event.fromMap(eventMap);
                     erfaraEvents.add(event);
                 }
@@ -92,6 +95,11 @@ public class MainActivity extends AppCompatActivity
         layoutManager = new LinearLayoutManager(this);
         list.setLayoutManager(layoutManager);
         adapter = new EventsAdapter(this);
+        adapter.setOnItemClickListener((position, v) -> {
+            Intent eventActivityIntent = new Intent(MainActivity.this, EventActivity.class);
+            eventActivityIntent.putExtra(Constants.EVENT_ID_KEY, adapter.getItem(position).id);
+            startActivity(eventActivityIntent);
+        });
         list.setAdapter(adapter);
     }
 

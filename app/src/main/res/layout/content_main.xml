@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="#F3F3F3"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.erfara.erfara.com.erfara.MainActivity"
+    tools:context="com.erfara.MainActivity"
     tools:showIn="@layout/app_bar_main">
 
     <android.support.v7.widget.RecyclerView

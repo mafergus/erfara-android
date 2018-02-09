@@ -1,6 +1,5 @@
 package com.erfara.model;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,6 +14,7 @@ public class Event {
     final public String toBring;
     final public Object[] attendeeIds;
     final public String date;
+    final public String description;
     final public String startTime;
     final public String endTime;
     final public GeoCoordinate location;
@@ -55,6 +55,7 @@ public class Event {
         this.toBring = null;
         this.attendeeIds = null;
         this.date = null;
+        this.description = null;
         this.startTime = null;
         this.endTime = null;
         this.locationString = null;
@@ -65,13 +66,14 @@ public class Event {
     }
 
     public Event(String id, String title, String toBring, Object[] attendeeIds, String date,
-                 String startTime, String endTime, String locationString,
+                 String description, String startTime, String endTime, String locationString,
                  String photo, String hostId, User host, GeoCoordinate geoCoord) {
         this.id = id;
         this.title = title;
         this.toBring = toBring;
         this.attendeeIds = attendeeIds;
         this.date = date;
+        this.description = description;
         this.startTime = startTime;
         this.endTime = endTime;
         this.locationString = locationString;
@@ -81,24 +83,7 @@ public class Event {
         this.location = geoCoord;
     }
 
-    @Override
-    public String toString() {
-        return "Event{" +
-                "id='" + id + '\'' +
-                ", title='" + title + '\'' +
-                ", toBring='" + toBring + '\'' +
-                ", attendeeIds=" + Arrays.toString(attendeeIds) +
-                ", date='" + date + '\'' +
-                ", startTime='" + startTime + '\'' +
-                ", endTime='" + endTime + '\'' +
-                ", location=" + location +
-                ", locationString='" + locationString + '\'' +
-                ", photo='" + photo + '\'' +
-                ", hostId='" + hostId + '\'' +
-                ", host=" + host +
-                ", attendees=" + attendees +
-                '}';
-    }
+
 
     static public Event fromMap(HashMap map) {
         String id = (String)map.get("id");
@@ -106,6 +91,7 @@ public class Event {
         String toBring = (String)map.get("advices");
         Object[] attendees = ((HashMap)map.get("attendees")).keySet().toArray();
         String date = (String)map.get("date");
+        String description = (String)map.get("description");
         String startTime = (String)map.get("startTime");
         String endTime = (String)map.get("endTime");
         String locationString = (String)map.get("locationString");
@@ -113,6 +99,7 @@ public class Event {
         String host = (String)map.get("userId");
         GeoCoordinate coord = GeoCoordinate.fromMap((Map<String, Object>)map.get("geoCoordinates"));
 
-        return new Event(id, title, toBring, attendees, date, startTime, endTime, locationString, photo, host, null, coord);
+        return new Event(id, title, toBring, attendees, date, description,
+                startTime, endTime, locationString, photo, host, null, coord);
     }
 }

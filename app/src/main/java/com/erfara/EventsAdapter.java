@@ -2,8 +2,6 @@ package com.erfara;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.icu.text.DateFormat;
-import android.icu.text.SimpleDateFormat;
 import android.location.Geocoder;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,26 +9,27 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.erfara.erfara.R;
 import com.erfara.model.Event;
+import com.erfara.utils.Utils;
 
 import java.io.IOException;
-import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 /**
  * Created by matthewferguson on 1/10/18.
  */
 
 public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.ViewHolder> {
+    public interface ItemClickListener {
+        void onItemClick(int position, View v);
+    }
+
+    private ItemClickListener itemClickListener;
     private Context context;
     private List<Event> events = new ArrayList<>();
 
@@ -56,10 +55,16 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.ViewHolder
         return events.size();
     }
 
+    public Event getItem(int position) { return events.get(position); }
+
     public void setEvents(List<Event> events) {
         this.events.clear();
         this.events.addAll(events);
         notifyDataSetChanged();
+    }
+
+    public void setOnItemClickListener(ItemClickListener listener) {
+        this.itemClickListener = listener;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -80,11 +85,9 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.ViewHolder
             this.rootView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-//                    Intent intent = new Intent(context, CauseDetailActivity.class);
-//                    String objectJson = new GsonBuilder().create().toJson(cause);
-//                    intent.putExtra("cause", objectJson);
-//                    context.startActivity(intent);
-                    Toast.makeText(rootView.getContext(), "TESTING", Toast.LENGTH_LONG).show();
+                    if (itemClickListener != null) {
+                        itemClickListener.onItemClick(EventsAdapter.this.events.indexOf(event), v);
+                    }
                 }
             });
             this.eventImage = view.findViewById(R.id.image);
@@ -99,23 +102,11 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.ViewHolder
         public void populate(Context context, Event event) {
             this.event = event;
             this.title.setText(this.event.title);
-            DateFormat iso8601format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
-            DateFormat df = DateFormat.getPatternInstance(DateFormat.ABBR_MONTH_WEEKDAY_DAY);
-            DateFormat tf = DateFormat.getPatternInstance(DateFormat.HOUR_MINUTE);
-            Date date;
-            Date time;
-            try {
-                date = iso8601format.parse(this.event.startTime);
-                time = iso8601format.parse(this.event.startTime);
-            } catch (ParseException e) {
-                date = new Date();
-                time = new Date();
-            }
-            this.subtitle.setText(tf.format(time) + " " + df.format(date));
+            this.subtitle.setText(Utils.getEventDate(event));
             Glide.with(context).load(this.event.photo).into(this.eventImage);
-            Map<String, HashMap> userMap = (HashMap)Api.objects.get("users");
-            Map<String, Object> user = userMap.get(event.hostId);
-            Glide.with(context).load(user != null ? user.get("photo") : "").into(this.hostImage);
+            Api.getUser(event.hostId, user -> {
+                Glide.with(context).load(user != null ? user.photo : "").into(this.hostImage);
+            }, () -> {});
             Geocoder geocoder = new Geocoder(context, Locale.getDefault());
             String city = "Some City";
             try {

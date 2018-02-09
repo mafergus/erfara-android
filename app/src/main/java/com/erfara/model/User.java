@@ -1,5 +1,7 @@
 package com.erfara.model;
 
+import com.erfara.utils.Constants;
+
 import java.util.HashMap;
 
 /**
@@ -49,5 +51,10 @@ final public class User {
         HashMap hosting = (HashMap)map.get("events");
 
         return new User(birthday, skills, uid, hometown, attending, coverPhoto, name, photo, location, email, hosting);
+    }
+
+    static public User nullUser() {
+        return new User("", null, "-1", "", null, null, "Deleted User",
+                Constants.DELETED_USER_PHOTO, "Address Unknown", "", null);
     }
 }

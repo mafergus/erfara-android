@@ -26,6 +26,10 @@ public class Api {
         void onReceived(T obj);
     }
 
+    public interface ErrorCallback {
+        void onError();
+    }
+
     static void populate() {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("");
@@ -35,7 +39,7 @@ public class Api {
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
                 Log.d("MY TAG", "Value is: ");
-                HashMap<String, HashMap> dbMap = (HashMap)dataSnapshot.getValue();
+                HashMap<String, HashMap> dbMap = (HashMap) dataSnapshot.getValue();
                 for (String key : dbMap.keySet()) {
                     Api.objects.put(key, dbMap.get(key));
                 }
@@ -50,26 +54,16 @@ public class Api {
         });
     }
 
-    static void getEvents(final DataCallback< Map<String, Event> > callback) {
+    static void getEvent(String eventId, final DataCallback<Event> callback) {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("events");
-        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+        Query query = reference.orderByKey().equalTo(eventId);
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
-                    final HashMap<String, HashMap> eventsMap = (HashMap)dataSnapshot.getValue();
-                    final Map<String, Event> erfaraEvents = new HashMap<>();
-
-                    for (String key : eventsMap.keySet()) {
-                        HashMap eventMap = eventsMap.get(key);
-                        eventMap.put("id", key);
-                        Event event = Event.fromMap(eventMap);
-                        Api.hydrate(event, obj -> {
-                            erfaraEvents.put(obj.id, obj);
-                            if (erfaraEvents.size() == eventsMap.size()) {
-                                callback.onReceived(erfaraEvents);
-                            }
-                        });
-                    }
+                    HashMap<String, Object> eventMap = (HashMap<String, Object>) ((HashMap) dataSnapshot.getValue()).get(eventId);
+                    eventMap.put("id", eventId);
+                    callback.onReceived(Event.fromMap(eventMap));
                 }
             }
 
@@ -80,7 +74,7 @@ public class Api {
         });
     }
 
-    static User getUser(final String userId, final DataCallback<User> userCallback) {
+    static User getUser(final String userId, final DataCallback<User> userCallback, final ErrorCallback errorCallback) {
 
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users");
         Query query = reference.orderByKey().equalTo(userId);
@@ -88,42 +82,35 @@ public class Api {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
-                    HashMap<String, Object> userMap = (HashMap<String, Object>) ((HashMap)dataSnapshot.getValue()).get(userId);
+                    HashMap<String, Object> userMap = (HashMap<String, Object>) ((HashMap) dataSnapshot.getValue()).get(userId);
                     User user = User.fromMap(userMap);
                     userCallback.onReceived(user);
+                } else {
+                    userCallback.onReceived(User.nullUser());
                 }
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
+                errorCallback.onError();
             }
         });
 
         return null;
     }
 
-    static void getUsers(final Object[] userId, final DataCallback< Map<String, User> > callback) {
+    static void getUsers(final Object[] userIds, final DataCallback<Map<String, User>> callback) {
         final Map<String, User> users = new HashMap<>();
-        for (Object o : userId) {
-            String id = (String)o;
-            Api.getUser(id, new DataCallback<User>() {
-                @Override
-                public void onReceived(User obj) {
-                    users.put(obj.uid, obj);
-                    if (users.size() == userId.length) {
-                        callback.onReceived(users);
-                    }
+        for (Object o : userIds) {
+            String id = (String) o;
+            Api.getUser(id, user -> {
+                users.put(user.uid, user);
+                if (users.size() == userIds.length) {
+                    callback.onReceived(users);
                 }
+            }, () -> {
+
             });
         }
-    }
-
-    static void hydrate(final Event event, DataCallback<Event> callback) {
-        Api.getUser(event.hostId, obj -> {
-            Api.getUsers(event.attendeeIds, userMap ->  {
-
-            });
-        });
     }
 }
