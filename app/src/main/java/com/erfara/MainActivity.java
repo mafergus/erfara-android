@@ -140,11 +140,11 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            finish();
         }
     }
 
@@ -190,9 +190,9 @@ public class MainActivity extends AppCompatActivity
                 dialog.dismiss();
             }));
             builder.create().show();
-        } else if (id == R.id.nav_gallery) {
+        } else if (id == R.id.nav_inbox) {
 
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.nav_profile) {
 
         }
 
